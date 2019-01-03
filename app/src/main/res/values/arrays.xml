@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="kList">
+        <item>T1</item>
+        <item>T2</item>
+        <item>T3</item>
+        <item>RH1</item>
+        <item>RH2</item>
+        <item>RH3</item>
+    </string-array>
+
+    <string-array name="query_type">
+        <item>间隔1秒</item>
+        <item>间隔3秒</item>
+        <item>间隔5秒</item>
+    </string-array>
+
+    <string-array name="trigger_type">
+        <item>自动</item>
+        <item>断开</item>
+        <item>闭合</item>
+    </string-array>
+
+
+</resources>
