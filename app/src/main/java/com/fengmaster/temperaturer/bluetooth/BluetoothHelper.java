@@ -80,7 +80,7 @@ public class BluetoothHelper extends BluetoothGattCallback {
     private List<ICharacteristicChangeListener> characteristicChangeListeners=new ArrayList<>();
 
 
-    BluetoothHelper() {
+    private BluetoothHelper() {
         EventBus.getDefault().register(this);
     }
 
@@ -160,6 +160,10 @@ public class BluetoothHelper extends BluetoothGattCallback {
 
     }
 
+    /**
+     * 蓝牙原始信息
+     * @param originalMessage
+     */
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void bluetoothMsg(BluetoothOriginalMessage originalMessage){
         switch (originalMessage.getMessage()){

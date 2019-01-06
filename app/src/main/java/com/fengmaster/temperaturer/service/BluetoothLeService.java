@@ -163,7 +163,6 @@ public class BluetoothLeService extends Service {
 		public void onDescriptorRead(BluetoothGatt gatt,
 									 BluetoothGattDescriptor descriptor, int status)
 		{
-			// TODO Auto-generated method stub
 			// super.onDescriptorRead(gatt, descriptor, status);
 			Log.w(TAG, "----onDescriptorRead status: " + status);
 			byte[] desc = descriptor.getValue();
@@ -180,7 +179,6 @@ public class BluetoothLeService extends Service {
 		public void onDescriptorWrite(BluetoothGatt gatt,
 									  BluetoothGattDescriptor descriptor, int status)
 		{
-			// TODO Auto-generated method stub
 			// super.onDescriptorWrite(gatt, descriptor, status);
 			Log.w(TAG, "--onDescriptorWrite--: " + status);
 		}
@@ -190,7 +188,6 @@ public class BluetoothLeService extends Service {
 		@Override
 		public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status)
 		{
-			// TODO Auto-generated method stub
 			// super.onReadRemoteRssi(gatt, rssi, status);
 			Log.w(TAG, "--onReadRemoteRssi--: " + status);
 			broadcastUpdate(ACTION_DATA_AVAILABLE, rssi);
@@ -199,7 +196,6 @@ public class BluetoothLeService extends Service {
 		@Override
 		public void onReliableWriteCompleted(BluetoothGatt gatt, int status)
 		{
-			// TODO Auto-generated method stub
 			// super.onReliableWriteCompleted(gatt, status);
 			Log.w(TAG, "--onReliableWriteCompleted--: " + status);
 		}

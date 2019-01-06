@@ -2,6 +2,9 @@ package com.fengmaster.temperaturer.entry;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fengmaster.temperaturer.BR;
 
 
@@ -22,6 +25,7 @@ public class TriggerParms extends BaseObservable {
     private String State;
 
     @Bindable
+    @JSONField(name = "Relation")
     public String getRelation() {
         return Relation;
     }
@@ -32,6 +36,7 @@ public class TriggerParms extends BaseObservable {
     }
 
     @Bindable
+    @JSONField(name = "Min")
     public String getMin() {
         return Min;
     }
@@ -42,6 +47,7 @@ public class TriggerParms extends BaseObservable {
     }
 
     @Bindable
+    @JSONField(name = "Max")
     public String getMax() {
         return Max;
     }
@@ -52,6 +58,7 @@ public class TriggerParms extends BaseObservable {
     }
 
     @Bindable
+    @JSONField(name = "Mode")
     public String getMode() {
         return Mode;
     }
@@ -62,6 +69,7 @@ public class TriggerParms extends BaseObservable {
     }
 
     @Bindable
+    @JSONField(name = "State")
     public String getState() {
         return State;
     }
@@ -70,4 +78,11 @@ public class TriggerParms extends BaseObservable {
         State = state;
         notifyPropertyChanged(BR.state);
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        TriggerParms c=JSONObject.parseObject(JSONObject.toJSONString(this),TriggerParms.class);
+        return c;
+    }
+
 }

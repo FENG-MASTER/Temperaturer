@@ -129,7 +129,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.T1.A}"
+                    android:text="@={watcherParms.T1.A}"
                     android:id="@+id/et_watcher_temperature1_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.T1.B}"
+                    android:text="@={watcherParms.T1.B}"
                     android:id="@+id/et_watcher_temperature1_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.RH1.A}"
+                    android:text="@={watcherParms.RH1.A}"
                     android:id="@+id/et_watcher_rh1_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.RH1.B}"
+                    android:text="@={watcherParms.RH1.B}"
                     android:id="@+id/et_watcher_rh1_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.T2.A}"
+                    android:text="@={watcherParms.T2.A}"
                     android:id="@+id/et_watcher_temperature2_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.T2.B}"
+                    android:text="@={watcherParms.T2.B}"
                     android:id="@+id/et_watcher_temperature2_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.RH2.A}"
+                    android:text="@={watcherParms.RH2.A}"
                     android:id="@+id/et_watcher_rh2_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.RH2.B}"
+                    android:text="@={watcherParms.RH2.B}"
                     android:id="@+id/et_watcher_rh2_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -345,7 +345,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.T3.A}"
+                    android:text="@={watcherParms.T3.A}"
                     android:id="@+id/et_watcher_temperature3_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.T3.B}"
+                    android:text="@={watcherParms.T3.B}"
                     android:id="@+id/et_watcher_temperature3_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -399,7 +399,7 @@
                     android:text="a ="/>
 
                 <EditText
-                    android:text="@{watcherParms.RH3.A}"
+                    android:text="@={watcherParms.RH3.A}"
                     android:id="@+id/et_watcher_rh3_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -414,7 +414,7 @@
 
 
                 <EditText
-                    android:text="@{watcherParms.RH3.B}"
+                    android:text="@={watcherParms.RH3.B}"
                     android:id="@+id/et_watcher_rh3_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

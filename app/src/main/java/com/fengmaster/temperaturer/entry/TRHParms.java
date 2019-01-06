@@ -2,6 +2,9 @@ package com.fengmaster.temperaturer.entry;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fengmaster.temperaturer.BR;
 
 
@@ -16,6 +19,7 @@ public class TRHParms extends BaseObservable {
     private String B;
 
     @Bindable
+    @JSONField(name = "A")
     public String getA() {
         return A;
     }
@@ -26,6 +30,7 @@ public class TRHParms extends BaseObservable {
     }
 
     @Bindable
+    @JSONField(name = "B")
     public String getB() {
         return B;
     }
@@ -33,5 +38,11 @@ public class TRHParms extends BaseObservable {
     public void setB(String b) {
         B = b;
         notifyPropertyChanged(BR.b);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        TRHParms c=JSONObject.parseObject(JSONObject.toJSONString(this),TRHParms.class);
+        return c;
     }
 }

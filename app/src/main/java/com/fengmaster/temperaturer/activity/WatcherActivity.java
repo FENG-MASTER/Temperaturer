@@ -1,11 +1,7 @@
 package com.fengmaster.temperaturer.activity;
 
-import android.bluetooth.BluetoothGattService;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,21 +10,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fengmaster.temperaturer.R;
 import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
+import com.fengmaster.temperaturer.bluetooth.TemperaturerBluetoothConnector;
 import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 import com.fengmaster.temperaturer.databinding.ActivityWatcherBinding;
 import com.fengmaster.temperaturer.entry.QueryResponse;
+import com.fengmaster.temperaturer.entry.SetParmsRequest;
 import com.fengmaster.temperaturer.entry.WatcherParms;
-import com.fengmaster.temperaturer.event.BluetoothOriginalMessage;
-import com.fengmaster.temperaturer.service.BluetoothLeService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,10 +42,6 @@ public class WatcherActivity extends AppCompatActivity {
      */
     private String bluetoothAddress;
 
-
-
-
-    private BluetoothLeService bluetoothLeService;
 
 
     @BindView(R.id.et_address)
@@ -91,7 +80,6 @@ public class WatcherActivity extends AppCompatActivity {
         model.setDeviceName(bluetoothName);
         model.setAddress(bluetoothAddress);
         BluetoothHelper.getInstance().connect(model);
-
     }
 
     private void initView(){
@@ -119,9 +107,19 @@ public class WatcherActivity extends AppCompatActivity {
     @OnClick(R.id.bt_watcher_connect)
     public void connect(View view){
         //点击连接按钮
-        BluetoothHelper.getInstance().sendString("{\"Type\": \"Check\"}");
 
+    }
 
+    @OnClick(R.id.bt_watcher_query)
+    public void queryParms(View view){
+        //点击查询按钮
+        TemperaturerBluetoothConnector.getInstance().queryParms();
+    }
+
+    @OnClick(R.id.bt_watcher_send)
+    public void setParms(View view){
+        //点击发送按钮,即设置参数
+        TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
     }
 
 

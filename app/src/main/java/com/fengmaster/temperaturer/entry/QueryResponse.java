@@ -11,6 +11,7 @@ import com.fengmaster.temperaturer.BR;
  */
 public class QueryResponse extends BaseObservable {
 
+
     public QueryResponse() {
     }
 
@@ -31,6 +32,7 @@ public class QueryResponse extends BaseObservable {
         setT3(queryResponse.getT3());
     }
 
+    protected String type;
 
     protected String SN;
 
@@ -61,6 +63,14 @@ public class QueryResponse extends BaseObservable {
     protected TriggerParms K3;
 
     protected TriggerParms K4;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Bindable
     public String getSN() {

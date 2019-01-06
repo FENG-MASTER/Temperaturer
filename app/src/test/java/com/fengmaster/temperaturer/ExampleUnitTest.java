@@ -1,5 +1,8 @@
 package com.fengmaster.temperaturer;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fengmaster.temperaturer.entry.QueryResponse;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +15,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
+        QueryResponse queryResponse = JSONObject.parseObject("{aaa:11}", QueryResponse.class);
         assertEquals(4, 2 + 2);
     }
 }
