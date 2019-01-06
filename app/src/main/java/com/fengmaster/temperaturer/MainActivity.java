@@ -11,13 +11,14 @@ import android.support.v7.app.AppCompatDelegate;
 
 
 import com.fengmaster.temperaturer.activity.SearchActivity;
+import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
 
 import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 public class MainActivity extends AppCompatActivity {
 
     // 要申请的权限
-     private String[] permissions = {Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_ADMIN};
+     private String[] permissions = {Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_ADMIN,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
 
 
     @Override
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,permissions,666);
         }else {
             startActivity(new Intent(this,SearchActivity.class));
+            BluetoothHelper.getInstance().init();
         }
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(new Intent(this,SearchActivity.class));
 
+            BluetoothHelper.getInstance().init();
 
         }
 

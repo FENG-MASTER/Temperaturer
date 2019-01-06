@@ -1,6 +1,11 @@
 package com.fengmaster.temperaturer.activity;
 
+import android.bluetooth.BluetoothGattService;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,19 +16,44 @@ import android.widget.Spinner;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fengmaster.temperaturer.R;
+import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
+import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 import com.fengmaster.temperaturer.databinding.ActivityWatcherBinding;
 import com.fengmaster.temperaturer.entry.QueryResponse;
 import com.fengmaster.temperaturer.entry.WatcherParms;
+import com.fengmaster.temperaturer.event.BluetoothOriginalMessage;
+import com.fengmaster.temperaturer.service.BluetoothLeService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class WatcherActivity extends AppCompatActivity {
+
+    public static final String EXT_NAME="EXT_NAME";
+    public static final String EXT_ADDRESS="EXT_ADDRESS";
+
+    /**
+     * 蓝牙名称
+     */
+    private String bluetoothName;
+    /**
+     * 蓝牙地址
+     */
+    private String bluetoothAddress;
+
+
+
+
+    private BluetoothLeService bluetoothLeService;
+
 
     @BindView(R.id.et_address)
     public EditText edAddress;
@@ -52,75 +82,15 @@ public class WatcherActivity extends AppCompatActivity {
         ButterKnife.bind(this,binding.getRoot());
         initView();
         EventBus.getDefault().register(this);
-        QueryResponse queryResponse=JSONObject.parseObject("{\n" +
-                "        \"SN\":   999999,\n" +
-                "        \"S1\":   {\n" +
-                "                \"T\":    20.299999,\n" +
-                "                \"RH\":   75\n" +
-                "        },\n" +
-                "        \"S2\":   {\n" +
-                "                \"T\":    21.440001,\n" +
-                "                \"RH\":   72\n" +
-                "        },\n" +
-                "        \"S3\":   {\n" +
-                "                \"T\":    21.059999,\n" +
-                "                \"RH\":   72\n" +
-                "        },\n" +
-                "        \"K1\":   {\n" +
-                "                \"Relation\":     \"T1\",\n" +
-                "                \"Min\":  1,\n" +
-                "                \"Max\":  99,\n" +
-                "                \"Mode\": \"AUTO\",\n" +
-                "                \"State\":        \"Close\"\n" +
-                "        },\n" +
-                "        \"K2\":   {\n" +
-                "                \"Relation\":     \"T2\",\n" +
-                "                \"Min\":  1,\n" +
-                "                \"Max\":  99,\n" +
-                "                \"Mode\": \"AUTO\",\n" +
-                "                \"State\":        \"Close\"\n" +
-                "        },\n" +
-                "        \"K3\":   {\n" +
-                "                \"Relation\":     \"T3\",\n" +
-                "                \"Min\":  1,\n" +
-                "                \"Max\":  99,\n" +
-                "                \"Mode\": \"AUTO\",\n" +
-                "                \"State\":        \"Close\"\n" +
-                "        },\n" +
-                "        \"K4\":   {\n" +
-                "                \"Relation\":     \"RH1\",\n" +
-                "                \"Min\":  1,\n" +
-                "                \"Max\":  99,\n" +
-                "                \"Mode\": \"AUTO\",\n" +
-                "                \"State\":        \"Close\"\n" +
-                "        },\n" +
-                "        \"T1\":   {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        },\n" +
-                "        \"T2\":   {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        },\n" +
-                "        \"T3\":   {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        },\n" +
-                "        \"RH1\":  {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        },\n" +
-                "        \"RH2\":  {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        },\n" +
-                "        \"RH3\":  {\n" +
-                "                \"A\":    1,\n" +
-                "                \"B\":    0\n" +
-                "        }\n" +
-                "}\n",QueryResponse.class);
 
-        EventBus.getDefault().post(queryResponse);
+        Intent intent = getIntent();
+        bluetoothName=intent.getStringExtra(EXT_NAME);
+        bluetoothAddress=intent.getStringExtra(EXT_ADDRESS);
+
+        BluetoothModel model=new BluetoothModel();
+        model.setDeviceName(bluetoothName);
+        model.setAddress(bluetoothAddress);
+        BluetoothHelper.getInstance().connect(model);
 
     }
 
@@ -145,6 +115,17 @@ public class WatcherActivity extends AppCompatActivity {
     public void onQueryReceive(QueryResponse queryResponse){
         watcherParms.copy(queryResponse);
     }
+
+    @OnClick(R.id.bt_watcher_connect)
+    public void connect(View view){
+        //点击连接按钮
+        BluetoothHelper.getInstance().sendString("{\"Type\": \"Check\"}");
+
+
+    }
+
+
+
 
 
 }

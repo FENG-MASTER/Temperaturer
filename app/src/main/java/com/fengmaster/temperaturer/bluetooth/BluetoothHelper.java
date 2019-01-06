@@ -10,17 +10,29 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanSettings;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.IBinder;
 import android.util.Log;
 
 import com.fengmaster.temperaturer.App;
 import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 import com.fengmaster.temperaturer.bluetooth.itf.ICharacteristicChangeListener;
+import com.fengmaster.temperaturer.event.BluetoothOriginalMessage;
+import com.fengmaster.temperaturer.service.BluetoothLeService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 
 /**
@@ -34,8 +46,13 @@ public class BluetoothHelper extends BluetoothGattCallback {
         return instance;
     }
 
+
+    private BluetoothLeService bluetoothLeService;
+
     private Context context;
 
+
+    public static String HEART_RATE_MEASUREMENT = "0000ffe1-0000-1000-8000-00805f9b34fb";
     //蓝牙管理器
     private BluetoothManager bluetoothManager;
     //蓝牙适配器
@@ -43,10 +60,18 @@ public class BluetoothHelper extends BluetoothGattCallback {
     //蓝牙搜索器
     private BluetoothLeScanner bluetoothLeScanner;
 
-    //蓝牙连接后的对象
-    private BluetoothGatt bluetoothGatt;
     //当前连接的设备信息
     private BluetoothModel bluetoothModel;
+
+
+    /**
+     * 蓝牙连接状态
+     */
+    private String state=STATE_DISCONNECT;
+
+    public static final String STATE_CONNECT="connected";
+    public static final String STATE_DISCONNECT="disconnected";
+
 
     //特征值-写
     private BluetoothGattCharacteristic writeCharacteristic;
@@ -55,13 +80,12 @@ public class BluetoothHelper extends BluetoothGattCallback {
     private List<ICharacteristicChangeListener> characteristicChangeListeners=new ArrayList<>();
 
 
-    private BluetoothHelper() {
-        context= App.getContext();
-        initBluetooth();
+    BluetoothHelper() {
+        EventBus.getDefault().register(this);
     }
 
-    public void initBluetooth(){
-
+    public void init(){
+        context= App.getContext();
         //获取蓝牙管理器
         bluetoothManager= (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         if (bluetoothManager==null){
@@ -81,6 +105,8 @@ public class BluetoothHelper extends BluetoothGattCallback {
             return;
         }
 
+
+
     }
 
 
@@ -89,9 +115,7 @@ public class BluetoothHelper extends BluetoothGattCallback {
             return;
         }
 
-        ScanSettings.Builder builder=new ScanSettings.Builder();
-        builder.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
-        bluetoothLeScanner.startScan(null,builder.build(),callback);
+        bluetoothLeScanner.startScan(callback);
 
     }
 
@@ -105,66 +129,83 @@ public class BluetoothHelper extends BluetoothGattCallback {
 
 
     public boolean connect(BluetoothModel model){
+
         if (model==null){
             return false;
         }
 
-        BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(model.getAddress());
-        if(remoteDevice==null){
-            Log.e(getClass().getSimpleName(),"找不到蓝牙设备");
-            return false;
-        }
+        Intent gattServiceIntent=new Intent(context,BluetoothLeService.class);
+        context.bindService(gattServiceIntent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                bluetoothLeService= ((BluetoothLeService.LocalBinder)service).getService();
+                if (!bluetoothLeService.initialize())
+                {
 
-        bluetoothGatt = remoteDevice.connectGatt(context, false, this);
-        if (bluetoothGatt==null){
-            Log.e(getClass().getSimpleName(),"连接蓝牙设备失败");
-            return false;
-        }
+                }
+                // 根据蓝牙地址，连接设备
+                bluetoothLeService.connect(bluetoothModel.getAddress());
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bluetoothLeService=null;
+            }
+        },BIND_AUTO_CREATE);
+
 
         bluetoothModel=model;
-        //获取特征值用于通讯
-        writeCharacteristic=getBluetoothGattCharacteristic(BluetoothConst.UUID);
+
         return true;
 
     }
 
-    public BluetoothGattCharacteristic getBluetoothGattCharacteristic(String uuid){
-        if (bluetoothGatt==null){
-            return null;
-        }
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void bluetoothMsg(BluetoothOriginalMessage originalMessage){
+        switch (originalMessage.getMessage()){
+            case BluetoothLeService.ACTION_GATT_CONNECTED:
+                state=STATE_CONNECT;
+                break;
+            case BluetoothLeService.ACTION_GATT_DISCONNECTED:
+                state=STATE_DISCONNECT;
+                break;
 
-        List<BluetoothGattService> services = bluetoothGatt.getServices();
-        for (BluetoothGattService service : services) {
-            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-            for (BluetoothGattCharacteristic characteristic : characteristics) {
-                if (characteristic.getUuid().toString().equals(uuid)){
-                    return characteristic;
+            case BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED:
+                //找到GATT服务器蓝牙设备
+                if (bluetoothLeService!=null){
+                    List<BluetoothGattService> supportedGattServices = bluetoothLeService.getSupportedGattServices();
+
+                    for (BluetoothGattService gattService : supportedGattServices) {
+                        List<BluetoothGattCharacteristic> characteristics = gattService.getCharacteristics();
+                        for (BluetoothGattCharacteristic characteristic : characteristics) {
+                            if (characteristic.getUuid().toString().equals(HEART_RATE_MEASUREMENT)){
+                                //接受Characteristic被写的通知,收到蓝牙模块的数据后会触发mOnDataAvailable.onCharacteristicWrite()
+                                bluetoothLeService.setCharacteristicNotification(
+                                        characteristic, true);
+                                writeCharacteristic=characteristic;
+                            }
+                        }
+
+                    }
+
+
                 }
-            }
-        }
+                break;
 
-        return null;
+        }
 
     }
 
 
 
+
     public boolean sendBytes(byte[] bytes){
-        if (bluetoothGatt==null||writeCharacteristic==null){
+        if (writeCharacteristic==null){
             return false;
         }
         writeCharacteristic.setValue(bytes);
-        boolean b = bluetoothGatt.writeCharacteristic(writeCharacteristic);
-        int i=0;
-        while (!b){
-            i++;
-            b=bluetoothGatt.writeCharacteristic(writeCharacteristic);
-            if (i>5){
-                break;
-            }
-        }
-
-        return b;
+        bluetoothLeService.writeCharacteristic(writeCharacteristic);
+        return true;
 
     }
 
@@ -186,7 +227,37 @@ public class BluetoothHelper extends BluetoothGattCallback {
      */
     public boolean sendString(String str,Charset charset){
         byte[] bytes = new String(str.getBytes(Charset.defaultCharset()), charset).getBytes(charset);
+
+
+        int[] separate = dataSeparate(bytes.length);
+
+        for(int i =0;i<separate[0];i++)
+        {
+            byte[] sendb=new byte[20];
+            System.arraycopy(bytes,20*i,sendb,0,20);
+            sendBytes(sendb);
+        }
+        if(separate[1]!=0)
+        {
+            //调用蓝牙服务的写特征值方法实现发送数据
+            byte[] sendb=new byte[ separate[1]];
+            System.arraycopy(bytes,20*separate[0],sendb,0, separate[1]);
+            sendBytes(sendb);
+        }
+
         return sendBytes(bytes);
+    }
+
+    /**
+     * 将数据分包
+     *
+     * **/
+    private int[] dataSeparate(int len)
+    {
+        int[] lens = new int[2];
+        lens[0]=len/20;
+        lens[1]=len-20*lens[0];
+        return lens;
     }
 
     @Override

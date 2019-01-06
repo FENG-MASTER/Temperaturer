@@ -1,8 +1,10 @@
 package com.fengmaster.temperaturer.adapter;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.fengmaster.temperaturer.App;
 import com.fengmaster.temperaturer.R;
+import com.fengmaster.temperaturer.activity.WatcherActivity;
 import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
 import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 
@@ -76,6 +80,7 @@ public class BluetoothSearchAdapter extends RecyclerView.Adapter<BluetoothSearch
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         BluetoothModel model = bluetoothModels.get(position);
+        holder.setDevice(model);
         holder.address.setText(model.getAddress());
         holder.name.setText(model.getDeviceName());
     }
@@ -85,7 +90,7 @@ public class BluetoothSearchAdapter extends RecyclerView.Adapter<BluetoothSearch
         return bluetoothModels.size();
     }
 
-    public static class Holder extends RecyclerView.ViewHolder{
+    public static class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_item_search_bluetooth_address)
         public TextView address;
@@ -93,9 +98,29 @@ public class BluetoothSearchAdapter extends RecyclerView.Adapter<BluetoothSearch
         @BindView(R.id.tv_item_search_bluetooth_name)
         public TextView name;
 
+        private BluetoothModel device;
+
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(this);
+        }
+
+
+        public BluetoothModel getDevice() {
+            return device;
+        }
+
+        public void setDevice(BluetoothModel device) {
+            this.device = device;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent=new Intent(App.getContext(),WatcherActivity.class);
+            intent.putExtra(WatcherActivity.EXT_NAME,device.getDeviceName());
+            intent.putExtra(WatcherActivity.EXT_ADDRESS,device.getAddress());
+            App.getContext().startActivity(intent);
         }
     }
 
