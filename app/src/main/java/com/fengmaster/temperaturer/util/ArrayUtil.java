@@ -20,4 +20,14 @@ public class ArrayUtil {
         return 0;
     }
 
+    public static String getString(int resId,int i){
+        String[] stringArray = App.getContext().getResources().getStringArray(resId);
+        if (i<0||i>stringArray.length){
+            return "";
+        }
+
+        return stringArray[i];
+    }
+
+
 }

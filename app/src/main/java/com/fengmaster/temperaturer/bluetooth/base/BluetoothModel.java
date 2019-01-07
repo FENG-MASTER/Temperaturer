@@ -1,6 +1,7 @@
 package com.fengmaster.temperaturer.bluetooth.base;
 
 /**
+ * 蓝牙设备信息 实体
  * Created by FengMaster on 18/12/24.
  */
 public class BluetoothModel {

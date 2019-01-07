@@ -36,33 +36,33 @@ public class QueryResponse extends BaseObservable {
 
     protected String SN;
 
-    protected TRH S1;
+    protected TRH S1=new TRH();
 
-    protected TRH S2;
+    protected TRH S2=new TRH();
 
-    protected TRH S3;
+    protected TRH S3=new TRH();
 
-    protected TRHParms T1;
+    protected TRHParms T1=new TRHParms();
 
-    protected TRHParms T2;
+    protected TRHParms T2=new TRHParms();
 
-    protected TRHParms T3;
-
-
-    protected TRHParms RH1;
-
-    protected TRHParms RH2;
-
-    protected TRHParms RH3;
+    protected TRHParms T3=new TRHParms();
 
 
-    protected TriggerParms K1;
+    protected TRHParms RH1=new TRHParms();
 
-    protected TriggerParms K2;
+    protected TRHParms RH2=new TRHParms();
 
-    protected TriggerParms K3;
+    protected TRHParms RH3=new TRHParms();
 
-    protected TriggerParms K4;
+
+    protected TriggerParms K1=new TriggerParms();
+
+    protected TriggerParms K2=new TriggerParms();
+
+    protected TriggerParms K3=new TriggerParms();
+
+    protected TriggerParms K4=new TriggerParms();
 
     public String getType() {
         return type;

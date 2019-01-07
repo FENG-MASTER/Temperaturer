@@ -40,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="设备地址"/>
+                        android:hint="设备序列号"/>
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -52,14 +52,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-
-                <Button
-                    android:id="@+id/bt_watcher_connect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_weight="2"
-                    android:text="连接"/>
 
 
                 <CheckBox
@@ -454,7 +446,7 @@
                     android:text="K1:"/>
 
                 <EditText
-                    android:text="@{watcherParms.K1.Min}"
+                    android:text="@={watcherParms.K1.Min}"
                     android:id="@+id/et_watcher_k1_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -470,7 +462,7 @@
 
                 <Spinner
                     android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K1.Relation)}"
-                    android:id="@+id/sp_watcher_k1"
+                    android:id="@+id/sp_watcher_k1_trigger"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -485,7 +477,7 @@
                     android:text="&#60;"/>
 
                 <EditText
-                    android:text="@{watcherParms.K1.Max}"
+                    android:text="@={watcherParms.K1.Max}"
                     android:id="@+id/et_watcher_k1_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -495,8 +487,8 @@
                     />
 
                 <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type,watcherParms.K1.Mode)}"
-                    android:id="@+id/sp_watcher_k1_trigger"
+                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K1.Mode)}"
+                    android:id="@+id/sp_watcher_k1_trigger_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/trigger_type">
@@ -528,7 +520,7 @@
                     android:text="K2:"/>
 
                 <EditText
-                    android:text="@{watcherParms.K2.Min}"
+                    android:text="@={watcherParms.K2.Min}"
                     android:id="@+id/et_watcher_k2_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -544,7 +536,7 @@
 
                 <Spinner
                     android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K2.Relation)}"
-                    android:id="@+id/sp_watcher_k2"
+                    android:id="@+id/sp_watcher_k2_trigger"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -558,7 +550,7 @@
                     android:text="&#60;"/>
 
                 <EditText
-                    android:text="@{watcherParms.K2.Max}"
+                    android:text="@={watcherParms.K2.Max}"
                     android:id="@+id/et_watcher_k2_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -567,8 +559,8 @@
                     android:padding="10dp"
                     />
                 <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type,watcherParms.K2.Mode)}"
-                    android:id="@+id/sp_watcher_k2_trigger"
+                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K2.Mode)}"
+                    android:id="@+id/sp_watcher_k2_trigger_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/trigger_type">
@@ -600,7 +592,7 @@
                     android:text="K3:"/>
 
                 <EditText
-                    android:text="@{watcherParms.K3.Min}"
+                    android:text="@={watcherParms.K3.Min}"
                     android:id="@+id/et_watcher_k3_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -616,7 +608,7 @@
 
                 <Spinner
                     android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K3.Relation)}"
-                    android:id="@+id/sp_watcher_k3"
+                    android:id="@+id/sp_watcher_k3_trigger"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -631,7 +623,7 @@
                     android:text="&#60;"/>
 
                 <EditText
-                    android:text="@{watcherParms.K3.Max}"
+                    android:text="@={watcherParms.K3.Max}"
                     android:id="@+id/et_watcher_k3_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -641,8 +633,8 @@
                     />
 
                 <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type,watcherParms.K3.Mode)}"
-                    android:id="@+id/sp_watcher_k3_trigger"
+                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K3.Mode)}"
+                    android:id="@+id/sp_watcher_k3_trigger_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/trigger_type">
@@ -675,7 +667,7 @@
                     android:text="K4:"/>
 
                 <EditText
-                    android:text="@{watcherParms.K4.Min}"
+                    android:text="@={watcherParms.K4.Min}"
                     android:id="@+id/et_watcher_k4_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -691,7 +683,7 @@
 
                 <Spinner
                     android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K4.Relation)}"
-                    android:id="@+id/sp_watcher_k4"
+                    android:id="@+id/sp_watcher_k4_trigger"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -706,7 +698,7 @@
                     android:text="&#60;"/>
 
                 <EditText
-                    android:text="@{watcherParms.K4.Max}"
+                    android:text="@={watcherParms.K4.Max}"
                     android:id="@+id/et_watcher_k4_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -718,8 +710,8 @@
 
 
                 <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type,watcherParms.K4.Mode)}"
-                    android:id="@+id/sp_watcher_k4_trigger"
+                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K4.Mode)}"
+                    android:id="@+id/sp_watcher_k4_trigger_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/trigger_type">

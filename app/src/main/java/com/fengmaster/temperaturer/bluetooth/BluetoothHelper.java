@@ -232,24 +232,24 @@ public class BluetoothHelper extends BluetoothGattCallback {
     public boolean sendString(String str,Charset charset){
         byte[] bytes = new String(str.getBytes(Charset.defaultCharset()), charset).getBytes(charset);
 
-
-        int[] separate = dataSeparate(bytes.length);
-
-        for(int i =0;i<separate[0];i++)
-        {
-            byte[] sendb=new byte[20];
-            System.arraycopy(bytes,20*i,sendb,0,20);
-            sendBytes(sendb);
-        }
-        if(separate[1]!=0)
-        {
-            //调用蓝牙服务的写特征值方法实现发送数据
-            byte[] sendb=new byte[ separate[1]];
-            System.arraycopy(bytes,20*separate[0],sendb,0, separate[1]);
-            sendBytes(sendb);
-        }
-
-        return sendBytes(bytes);
+//
+//        int[] separate = dataSeparate(bytes.length);
+//
+//        for(int i =0;i<separate[0];i++)
+//        {
+//            byte[] sendb=new byte[20];
+//            System.arraycopy(bytes,20*i,sendb,0,20);
+//            sendBytes(sendb);
+//        }
+//        if(separate[1]!=0)
+//        {
+//            //调用蓝牙服务的写特征值方法实现发送数据
+//            byte[] sendb=new byte[ separate[1]];
+//            System.arraycopy(bytes,20*separate[0],sendb,0, separate[1]);
+//            sendBytes(sendb);
+//        }
+        sendBytes(bytes);
+        return true;
     }
 
     /**

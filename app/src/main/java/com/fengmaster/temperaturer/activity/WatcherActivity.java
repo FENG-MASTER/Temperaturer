@@ -18,6 +18,7 @@ import com.fengmaster.temperaturer.databinding.ActivityWatcherBinding;
 import com.fengmaster.temperaturer.entry.QueryResponse;
 import com.fengmaster.temperaturer.entry.SetParmsRequest;
 import com.fengmaster.temperaturer.entry.WatcherParms;
+import com.fengmaster.temperaturer.util.ArrayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,6 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 
 public class WatcherActivity extends AppCompatActivity {
@@ -46,9 +48,6 @@ public class WatcherActivity extends AppCompatActivity {
 
     @BindView(R.id.et_address)
     public EditText edAddress;
-
-    @BindView(R.id.bt_watcher_connect)
-    public Button btConnect;
 
     @BindView(R.id.cb_watcher_auto_query)
     public CheckBox cbAutoQuery;
@@ -104,12 +103,6 @@ public class WatcherActivity extends AppCompatActivity {
         watcherParms.copy(queryResponse);
     }
 
-    @OnClick(R.id.bt_watcher_connect)
-    public void connect(View view){
-        //点击连接按钮
-
-    }
-
     @OnClick(R.id.bt_watcher_query)
     public void queryParms(View view){
         //点击查询按钮
@@ -122,8 +115,43 @@ public class WatcherActivity extends AppCompatActivity {
         TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
     }
 
+    @OnItemSelected(R.id.sp_watcher_k1_trigger_type)
+    public void K1TriggerTypeChange(View view,int i){
+        watcherParms.getK1().setMode(ArrayUtil.getString(R.array.trigger_type_val,i));
+    }
 
+    @OnItemSelected(R.id.sp_watcher_k2_trigger_type)
+    public void K2TriggerTypeChange(View view,int i){
+        watcherParms.getK2().setMode(ArrayUtil.getString(R.array.trigger_type_val,i));
+    }
 
+    @OnItemSelected(R.id.sp_watcher_k3_trigger_type)
+    public void K3TriggerTypeChange(View view,int i){
+        watcherParms.getK3().setMode(ArrayUtil.getString(R.array.trigger_type_val,i));
+    }
 
+    @OnItemSelected(R.id.sp_watcher_k4_trigger_type)
+    public void K4TriggerTypeChange(View view,int i){
+        watcherParms.getK4().setMode(ArrayUtil.getString(R.array.trigger_type_val,i));
+    }
 
+    @OnItemSelected(R.id.sp_watcher_k1_trigger)
+    public void K1TriggerChange(View view,int i){
+        watcherParms.getK1().setRelation(ArrayUtil.getString(R.array.kList,i));
+    }
+
+    @OnItemSelected(R.id.sp_watcher_k2_trigger)
+    public void K2TriggerChange(View view,int i){
+        watcherParms.getK2().setRelation(ArrayUtil.getString(R.array.kList,i));
+    }
+
+    @OnItemSelected(R.id.sp_watcher_k3_trigger)
+    public void K3TriggerChange(View view,int i){
+        watcherParms.getK3().setRelation(ArrayUtil.getString(R.array.kList,i));
+    }
+
+    @OnItemSelected(R.id.sp_watcher_k4_trigger)
+    public void K4TriggerChange(View view,int i){
+        watcherParms.getK4().setRelation(ArrayUtil.getString(R.array.kList,i));
+    }
 }
