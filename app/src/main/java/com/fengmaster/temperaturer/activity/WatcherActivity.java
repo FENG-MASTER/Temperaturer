@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.fengmaster.temperaturer.databinding.ActivityWatcherBinding;
 import com.fengmaster.temperaturer.entry.QueryResponse;
 import com.fengmaster.temperaturer.entry.SetParmsRequest;
 import com.fengmaster.temperaturer.entry.WatcherParms;
+import com.fengmaster.temperaturer.event.BluetoothGattInitFinished;
 import com.fengmaster.temperaturer.util.ArrayUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,6 +81,7 @@ public class WatcherActivity extends AppCompatActivity {
         model.setDeviceName(bluetoothName);
         model.setAddress(bluetoothAddress);
         BluetoothHelper.getInstance().connect(model);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void initView(){
@@ -96,6 +99,12 @@ public class WatcherActivity extends AppCompatActivity {
             spQueryInterval.setVisibility(View.GONE);
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void gattInitFinished(BluetoothGattInitFinished finished){
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        TemperaturerBluetoothConnector.getInstance().queryParms();
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)

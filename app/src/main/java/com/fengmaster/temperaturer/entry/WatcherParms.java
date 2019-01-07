@@ -6,6 +6,6 @@ package com.fengmaster.temperaturer.entry;
 public class WatcherParms extends QueryResponse{
 
     public WatcherParms() {
-        SN="1111111111";
+
     }
 }

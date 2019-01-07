@@ -21,6 +21,7 @@ import android.util.Log;
 import com.fengmaster.temperaturer.App;
 import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 import com.fengmaster.temperaturer.bluetooth.itf.ICharacteristicChangeListener;
+import com.fengmaster.temperaturer.event.BluetoothGattInitFinished;
 import com.fengmaster.temperaturer.event.BluetoothOriginalMessage;
 import com.fengmaster.temperaturer.service.BluetoothLeService;
 
@@ -187,6 +188,7 @@ public class BluetoothHelper extends BluetoothGattCallback {
                                 bluetoothLeService.setCharacteristicNotification(
                                         characteristic, true);
                                 writeCharacteristic=characteristic;
+                                EventBus.getDefault().post(new BluetoothGattInitFinished());
                             }
                         }
 
