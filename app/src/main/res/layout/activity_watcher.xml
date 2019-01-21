@@ -35,7 +35,7 @@
                     android:layout_weight="8">
 
                     <EditText
-                        android:text="@{watcherParms.SN}"
+                        android:text="@={watcherParms.SN}"
                         android:id="@+id/et_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

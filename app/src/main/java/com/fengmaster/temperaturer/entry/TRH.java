@@ -7,6 +7,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fengmaster.temperaturer.BR;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 温度和湿度情况
@@ -46,4 +49,6 @@ public class TRH extends BaseObservable {
         TRH c=JSONObject.parseObject(JSONObject.toJSONString(this),TRH.class);
         return c;
     }
+
+
 }

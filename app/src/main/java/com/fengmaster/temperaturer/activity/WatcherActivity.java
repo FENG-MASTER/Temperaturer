@@ -118,10 +118,12 @@ public class WatcherActivity extends AppCompatActivity {
         TemperaturerBluetoothConnector.getInstance().queryParms();
     }
 
-    @OnClick(R.id.bt_watcher_send)
+    @OnClick({R.id.bt_watcher_send})
     public void setParms(View view){
         //点击发送按钮,即设置参数
         TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
+        TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
+
     }
 
     @OnItemSelected(R.id.sp_watcher_k1_trigger_type)

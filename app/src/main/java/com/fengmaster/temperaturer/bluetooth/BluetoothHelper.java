@@ -209,6 +209,11 @@ public class BluetoothHelper extends BluetoothGattCallback {
         if (writeCharacteristic==null){
             return false;
         }
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         writeCharacteristic.setValue(bytes);
         bluetoothLeService.writeCharacteristic(writeCharacteristic);
         return true;
@@ -234,7 +239,7 @@ public class BluetoothHelper extends BluetoothGattCallback {
     public boolean sendString(String str,Charset charset){
         byte[] bytes = new String(str.getBytes(Charset.defaultCharset()), charset).getBytes(charset);
 
-//
+
 //        int[] separate = dataSeparate(bytes.length);
 //
 //        for(int i =0;i<separate[0];i++)

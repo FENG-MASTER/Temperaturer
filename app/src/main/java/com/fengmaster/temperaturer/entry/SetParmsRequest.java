@@ -3,11 +3,14 @@ package com.fengmaster.temperaturer.entry;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 设置参数实体对象
  * Created by FengMaster on 19/01/07.
  */
-public class SetParmsRequest {
+public class SetParmsRequest implements IPacks{
 
     public SetParmsRequest(QueryResponse queryResponse){
         try {
@@ -181,5 +184,22 @@ public class SetParmsRequest {
 
     public void setK4(TriggerParms k4) {
         K4 = k4;
+    }
+
+    @Override
+    public List<String> getStrPacks(String name) {
+        List<String> stringList=new ArrayList<>();
+        stringList.add("{\"SN\":"+getSN()+"}");
+
+        stringList.addAll(getT1().getStrPacks("T1"));
+        stringList.addAll(getT2().getStrPacks("T2"));
+        stringList.addAll(getT3().getStrPacks("T3"));
+
+        stringList.addAll(getK1().getStrPacks("K1"));
+        stringList.addAll(getK2().getStrPacks("K2"));
+        stringList.addAll(getK3().getStrPacks("K3"));
+        stringList.addAll(getK4().getStrPacks("K4"));
+
+        return stringList;
     }
 }

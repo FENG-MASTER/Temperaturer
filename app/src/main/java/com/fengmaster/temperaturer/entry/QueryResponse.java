@@ -3,13 +3,17 @@ package com.fengmaster.temperaturer.entry;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fengmaster.temperaturer.BR;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 查询命令返回的对象
  * Created by FengMaster on 18/12/26.
  */
-public class QueryResponse extends BaseObservable {
+public class QueryResponse extends BaseObservable implements IPacks{
 
 
     public QueryResponse() {
@@ -64,10 +68,12 @@ public class QueryResponse extends BaseObservable {
 
     protected TriggerParms K4=new TriggerParms();
 
+    @JSONField(name = "T")
     public String getType() {
         return type;
     }
 
+    @JSONField(name = "T")
     public void setType(String type) {
         this.type = type;
     }
@@ -211,5 +217,24 @@ public class QueryResponse extends BaseObservable {
     public void setK4(TriggerParms k4) {
         K4 = k4;
         notifyPropertyChanged(BR.k4);
+    }
+
+
+
+    @Override
+    public List<String> getStrPacks(String name) {
+        List<String> stringList=new ArrayList<>();
+        stringList.add("{\"SN\":"+getSN()+"}");
+
+        stringList.addAll(getT1().getStrPacks("T1"));
+        stringList.addAll(getT2().getStrPacks("T2"));
+        stringList.addAll(getT3().getStrPacks("T3"));
+
+        stringList.addAll(getK1().getStrPacks("K1"));
+        stringList.addAll(getK2().getStrPacks("K2"));
+        stringList.addAll(getK3().getStrPacks("K3"));
+        stringList.addAll(getK4().getStrPacks("K4"));
+
+        return stringList;
     }
 }

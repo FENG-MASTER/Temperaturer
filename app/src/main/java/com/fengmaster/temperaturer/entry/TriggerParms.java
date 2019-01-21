@@ -7,12 +7,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fengmaster.temperaturer.BR;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 触发器参数对象
  * Created by FengMaster on 18/12/26.
  */
-public class TriggerParms extends BaseObservable {
+public class TriggerParms extends BaseObservable implements IPacks{
 
     private String Relation;
 
@@ -25,11 +28,12 @@ public class TriggerParms extends BaseObservable {
     private String State;
 
     @Bindable
-    @JSONField(name = "Relation")
+    @JSONField(name = "R")
     public String getRelation() {
         return Relation;
     }
 
+    @JSONField(name = "R")
     public void setRelation(String relation) {
         Relation = relation;
         notifyPropertyChanged(BR.relation);
@@ -41,6 +45,7 @@ public class TriggerParms extends BaseObservable {
         return Min;
     }
 
+    @JSONField(name = "Min")
     public void setMin(String min) {
         Min = min;
         notifyPropertyChanged(BR.min);
@@ -52,28 +57,31 @@ public class TriggerParms extends BaseObservable {
         return Max;
     }
 
+    @JSONField(name = "Max")
     public void setMax(String max) {
         Max = max;
         notifyPropertyChanged(BR.max);
     }
 
     @Bindable
-    @JSONField(name = "Mode")
+    @JSONField(name = "M")
     public String getMode() {
         return Mode;
     }
 
+    @JSONField(name = "M")
     public void setMode(String mode) {
         Mode = mode;
         notifyPropertyChanged(BR.mode);
     }
 
     @Bindable
-    @JSONField(name = "State")
+    @JSONField(name = "S")
     public String getState() {
         return State;
     }
 
+    @JSONField(name = "S")
     public void setState(String state) {
         State = state;
         notifyPropertyChanged(BR.state);
@@ -85,4 +93,13 @@ public class TriggerParms extends BaseObservable {
         return c;
     }
 
+    @Override
+    public List<String> getStrPacks(String name) {
+        List<String> strings=new ArrayList<>();
+        strings.add("{\""+name+"\":{\"R\":"+getRelation()+"}}");
+        strings.add("{\""+name+"\":{\"Min\":"+getMin()+"}}");
+        strings.add("{\""+name+"\":{\"Max\":"+getMax()+"}}");
+        strings.add("{\""+name+"\":{\"M\":"+getMode()+"}}");
+        return strings;
+    }
 }

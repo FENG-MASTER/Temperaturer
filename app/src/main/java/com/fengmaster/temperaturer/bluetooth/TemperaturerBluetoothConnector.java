@@ -12,6 +12,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 public class TemperaturerBluetoothConnector {
 
 
@@ -20,7 +22,7 @@ public class TemperaturerBluetoothConnector {
      */
     private StringBuffer bluetoothDataBuffer=new StringBuffer();
 
-    private static final String O_QUERY_PARMS_MESSAGE="{\"Type\": \"Check\"}";
+    private static final String O_QUERY_PARMS_MESSAGE="{\"T\":\"C\"}";
 
 
     public void queryParms(){
@@ -29,7 +31,10 @@ public class TemperaturerBluetoothConnector {
 
 
     public void setParms(SetParmsRequest setParmsRequest){
-        BluetoothHelper.getInstance().sendString(JSONObject.toJSONString(setParmsRequest,SerializerFeature.DisableCircularReferenceDetect));
+        List<String> strPacks = setParmsRequest.getStrPacks(null);
+        for (String s : strPacks) {
+            BluetoothHelper.getInstance().sendString(s);
+        }
     }
 
 
