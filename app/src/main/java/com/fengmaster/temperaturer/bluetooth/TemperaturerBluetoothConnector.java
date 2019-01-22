@@ -31,10 +31,18 @@ public class TemperaturerBluetoothConnector {
 
 
     public void setParms(SetParmsRequest setParmsRequest){
-        List<String> strPacks = setParmsRequest.getStrPacks(null);
-        for (String s : strPacks) {
-            BluetoothHelper.getInstance().sendString(s);
-        }
+        new Thread(() -> {
+            List<String> strPacks = setParmsRequest.getStrPacks(null);
+            for (String s : strPacks) {
+                BluetoothHelper.getInstance().sendString(s);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 
@@ -57,30 +65,37 @@ public class TemperaturerBluetoothConnector {
 
     }
 
+    private static int packIndex=0;
 
     /**
      * 尝试解码已经收到的信息
      * @return 是否是完整的json
      */
     private boolean tryDecodeBuffer(StringBuffer buffer){
-        if (JSONUtil.isJSON(buffer.toString())){
-            //是完整json
-            String jsonStr=buffer.toString();
-            buffer.setLength(0);//清空
+        packIndex++;
+        if (packIndex%32==0){
+            if (JSONUtil.isJSON(buffer.toString())){
+                //是完整json
+                String jsonStr=buffer.toString();
+                buffer.setLength(0);//清空
 
-            QueryResponse queryResponse = JSONObject.parseObject(jsonStr, QueryResponse.class);
+                QueryResponse queryResponse = JSONObject.parseObject(jsonStr, QueryResponse.class);
 
-            if (queryResponse.getType()!=null){
-                //解析为参数对象
-                EventBus.getDefault().post(queryResponse);
+                if (queryResponse.getType()!=null){
+                    //解析为参数对象
+                    EventBus.getDefault().post(queryResponse);
+                }else {
+
+
+                }
+
+
             }else {
-
-
+                buffer.setLength(0);//清空
             }
 
-
         }
-        return true;
+        return false;
     }
 
 

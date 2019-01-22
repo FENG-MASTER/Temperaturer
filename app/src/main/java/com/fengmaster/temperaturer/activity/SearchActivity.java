@@ -27,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         initView();
+        setTitle("选择蓝牙设备");
     }
 
 

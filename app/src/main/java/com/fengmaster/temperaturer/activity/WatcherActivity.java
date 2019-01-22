@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -25,6 +26,9 @@ import com.fengmaster.temperaturer.util.ArrayUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +50,9 @@ public class WatcherActivity extends AppCompatActivity {
      */
     private String bluetoothAddress;
 
+    private Timer timer=new Timer();
 
+    private TimerTask timerTask;
 
     @BindView(R.id.et_address)
     public EditText edAddress;
@@ -86,6 +92,17 @@ public class WatcherActivity extends AppCompatActivity {
 
     private void initView(){
         cbAutoQuery.setOnCheckedChangeListener((buttonView, isChecked) -> queryTypeChange());
+        spQueryInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                autoQuery();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         queryTypeChange();
     }
 
@@ -94,12 +111,44 @@ public class WatcherActivity extends AppCompatActivity {
 //        自动查询模式下,不会显示查询按钮
             btQuery.setVisibility(View.GONE);
             spQueryInterval.setVisibility(View.VISIBLE);
+            autoQuery();
         }else {
+            if (timerTask!=null){
+                timerTask.cancel();
+            }
             btQuery.setVisibility(View.VISIBLE);
             spQueryInterval.setVisibility(View.GONE);
         }
 
     }
+
+
+    private void autoQuery(){
+        if (timerTask!=null){
+            timerTask.cancel();
+        }
+        timerTask=new TimerTask() {
+            @Override
+            public void run() {
+                TemperaturerBluetoothConnector.getInstance().queryParms();
+            }
+        };
+        long i=0;
+        int p = binding.spWatcherQueryInterval.getSelectedItemPosition();
+        switch (p){
+            case 0:
+                i=1000;
+                break;
+            case 1:
+                i=3000;
+                break;
+            case 2:
+                i=5000;
+                break;
+        }
+        timer.schedule(timerTask,0,i);
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gattInitFinished(BluetoothGattInitFinished finished){
@@ -121,7 +170,6 @@ public class WatcherActivity extends AppCompatActivity {
     @OnClick({R.id.bt_watcher_send})
     public void setParms(View view){
         //点击发送按钮,即设置参数
-        TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
         TemperaturerBluetoothConnector.getInstance().setParms(new SetParmsRequest(watcherParms));
 
     }

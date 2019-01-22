@@ -46,6 +46,10 @@ public class SetParmsRequest implements IPacks{
                 setT3((TRHParms) queryResponse.getT3().clone());
             }
 
+            if (queryResponse.getSN()!=null){
+                setSN(queryResponse.getSN());
+            }
+
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -194,6 +198,10 @@ public class SetParmsRequest implements IPacks{
         stringList.addAll(getT1().getStrPacks("T1"));
         stringList.addAll(getT2().getStrPacks("T2"));
         stringList.addAll(getT3().getStrPacks("T3"));
+
+        stringList.addAll(getRH1().getStrPacks("RH1"));
+        stringList.addAll(getRH2().getStrPacks("RH2"));
+        stringList.addAll(getRH3().getStrPacks("RH3"));
 
         stringList.addAll(getK1().getStrPacks("K1"));
         stringList.addAll(getK2().getStrPacks("K2"));
