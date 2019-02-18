@@ -3,6 +3,7 @@
     <data>
         <import type="com.fengmaster.temperaturer.util.ArrayUtil"/>
         <import type="com.fengmaster.temperaturer.R"/>
+        <import type="com.fengmaster.temperaturer.util.FormatUtil"/>
         <variable
             name="watcherParms"
             type="com.fengmaster.temperaturer.entry.WatcherParms"/>
@@ -15,712 +16,739 @@
         android:layout_height="match_parent"
         android:padding="5dp">
 
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
+            android:layout_height="match_parent">
             <LinearLayout
+                android:paddingTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8">
+
+                        <EditText
+                            android:text="@={watcherParms.SN}"
+                            android:id="@+id/et_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="设备序列号"/>
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+
+                    <CheckBox
+                        android:id="@+id/cb_watcher_auto_query"
+                        android:text="自动查询"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/bt_watcher_query"
+                        android:text="查询"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/sp_watcher_query_interval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/query_type">
+
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/bt_watcher_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="2"
+                        android:text="发送"/>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#cfc6c9"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="温度T1:"/>
+
+                    <TextView
+                        android:id="@+id/tv_watcher_temperature1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S1.T) + "°C"}'/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
 
                     <EditText
-                        android:text="@={watcherParms.SN}"
-                        android:id="@+id/et_address"
-                        android:layout_width="match_parent"
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T1.A}"
+                        android:id="@+id/et_watcher_temperature1_a"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T1.B}"
+                        android:id="@+id/et_watcher_temperature1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="湿度RH1:"/>
+
+                    <TextView
+                        android:id="@+id/et_watcher_rh1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S1.RH)+"%"}'/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH1.A}"
+                        android:id="@+id/et_watcher_rh1_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH1.B}"
+                        android:id="@+id/et_watcher_rh1_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="温度T2:"/>
+
+                    <TextView
+                        android:id="@+id/tv_watcher_temperature2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S2.T) +"°C"}'/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T2.A}"
+                        android:id="@+id/et_watcher_temperature2_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T2.B}"
+                        android:id="@+id/et_watcher_temperature2_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="湿度RH2:"/>
+
+                    <TextView
+                        android:id="@+id/et_watcher_rh2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S2.RH)+"%"}'/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH2.A}"
+                        android:id="@+id/et_watcher_rh2_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH2.B}"
+                        android:id="@+id/et_watcher_rh2_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="温度T3:"/>
+
+                    <TextView
+                        android:id="@+id/tv_watcher_temperature3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S3.T) +"°C"}'/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T3.A}"
+                        android:id="@+id/et_watcher_temperature3_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.T3.B}"
+                        android:id="@+id/et_watcher_temperature3_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="1dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="湿度RH3:"/>
+
+                    <TextView
+                        android:id="@+id/et_watcher_rh3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{FormatUtil.formatDoublePoint(watcherParms.S3.RH)+"%"}'/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="a ="/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH3.A}"
+                        android:id="@+id/et_watcher_rh3_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="b ="/>
+
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:text="@={watcherParms.RH3.B}"
+                        android:id="@+id/et_watcher_rh3_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#cfc6c9"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+
+                    <Switch
+                        android:layout_weight="1"
+                        android:checked='@{watcherParms.K1.State.equals("Close")?true:false}'
+                        android:enabled="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="10dp"
+                        android:text="K1:"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K1.Min}"
+                        android:id="@+id/et_watcher_k1_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
                         android:gravity="center"
-                        android:hint="设备序列号"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:padding="10dp"/>
 
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K1.Relation)}"
+                        android:id="@+id/sp_watcher_k1_trigger"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:entries="@array/kList">
+
+                    </Spinner>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K1.Max}"
+                        android:id="@+id/et_watcher_k1_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        />
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K1.Mode)}"
+                        android:id="@+id/sp_watcher_k1_trigger_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/trigger_type">
+
+                    </Spinner>
+
+                </LinearLayout>
 
 
-
-                <CheckBox
-                    android:id="@+id/cb_watcher_auto_query"
-                    android:text="自动查询"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/bt_watcher_query"
-                    android:text="查询"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <Spinner
-                    android:id="@+id/sp_watcher_query_interval"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/query_type">
-
-                </Spinner>
-
-                <Button
-                    android:id="@+id/bt_watcher_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_weight="2"
-                    android:text="发送"/>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#cfc6c9"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="温度T1:"/>
-
-                <TextView
-                    android:id="@+id/tv_watcher_temperature1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text='@{watcherParms.S1.T + "°C"}'/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.T1.A}"
-                    android:id="@+id/et_watcher_temperature1_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.T1.B}"
-                    android:id="@+id/et_watcher_temperature1_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="湿度RH1:"/>
-
-                <TextView
-                    android:id="@+id/et_watcher_rh1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@{watcherParms.S1.RH}"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.RH1.A}"
-                    android:id="@+id/et_watcher_rh1_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.RH1.B}"
-                    android:id="@+id/et_watcher_rh1_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="温度T2:"/>
-
-                <TextView
-                    android:id="@+id/tv_watcher_temperature2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text='@{watcherParms.S2.T +"°C"}'/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.T2.A}"
-                    android:id="@+id/et_watcher_temperature2_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.T2.B}"
-                    android:id="@+id/et_watcher_temperature2_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="湿度RH2:"/>
-
-                <TextView
-                    android:id="@+id/et_watcher_rh2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text='@{watcherParms.S2.RH}'/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.RH2.A}"
-                    android:id="@+id/et_watcher_rh2_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.RH2.B}"
-                    android:id="@+id/et_watcher_rh2_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="温度T3:"/>
-
-                <TextView
-                    android:id="@+id/tv_watcher_temperature3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text='@{watcherParms.S3.T +"°C"}'/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.T3.A}"
-                    android:id="@+id/et_watcher_temperature3_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.T3.B}"
-                    android:id="@+id/et_watcher_temperature3_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="湿度RH3:"/>
-
-                <TextView
-                    android:id="@+id/et_watcher_rh3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text='@{watcherParms.S3.RH+"%"}'/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="a ="/>
-
-                <EditText
-                    android:text="@={watcherParms.RH3.A}"
-                    android:id="@+id/et_watcher_rh3_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="b ="/>
-
-
-                <EditText
-                    android:text="@={watcherParms.RH3.B}"
-                    android:id="@+id/et_watcher_rh3_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#cfc6c9"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-
-                <Switch
-                    android:layout_weight="1"
-                    android:checked='@{watcherParms.K1.State.equals("Close")?true:false}'
-                    android:enabled="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:text="K1:"/>
-
-                <EditText
-                    android:text="@={watcherParms.K1.Min}"
-                    android:id="@+id/et_watcher_k1_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:gravity="center"
-                    android:padding="10dp"/>
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <Switch
+                        android:layout_weight="1"
+                        android:checked='@{watcherParms.K2.State.equals("Close")?true:false}'
+                        android:enabled="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="10dp"
+                        android:text="K2:"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K2.Min}"
+                        android:id="@+id/et_watcher_k2_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K2.Relation)}"
+                        android:id="@+id/sp_watcher_k2_trigger"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:entries="@array/kList">
+
+                    </Spinner>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K2.Max}"
+                        android:id="@+id/et_watcher_k2_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        />
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K2.Mode)}"
+                        android:id="@+id/sp_watcher_k2_trigger_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/trigger_type">
+
+                    </Spinner>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K1.Relation)}"
-                    android:id="@+id/sp_watcher_k1_trigger"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:entries="@array/kList">
-
-                </Spinner>
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <EditText
-                    android:text="@={watcherParms.K1.Max}"
-                    android:id="@+id/et_watcher_k1_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:gravity="center"
-                    android:padding="10dp"
-                    />
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K1.Mode)}"
-                    android:id="@+id/sp_watcher_k1_trigger_type"
-                    android:layout_width="wrap_content"
+                    <Switch
+                        android:layout_weight="1"
+                        android:checked='@{watcherParms.K3.State.equals("Close")?true:false}'
+                        android:enabled="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="10dp"
+                        android:text="K3:"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K3.Min}"
+                        android:id="@+id/et_watcher_k3_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K3.Relation)}"
+                        android:id="@+id/sp_watcher_k3_trigger"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:entries="@array/kList">
+
+                    </Spinner>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K3.Max}"
+                        android:id="@+id/et_watcher_k3_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        />
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K3.Mode)}"
+                        android:id="@+id/sp_watcher_k3_trigger_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/trigger_type">
+
+                    </Spinner>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/trigger_type">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
-                </Spinner>
+                    <Switch
+                        android:layout_weight="1"
+                        android:checked='@{watcherParms.K4.State.equals("Close")?true:false}'
+                        android:enabled="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="10dp"
+                        android:text="K4:"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K4.Min}"
+                        android:id="@+id/et_watcher_k4_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K4.Relation)}"
+                        android:id="@+id/sp_watcher_k4_trigger"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:entries="@array/kList">
+
+                    </Spinner>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#60;"/>
+
+                    <EditText
+                        android:inputType="number"
+                        android:text="@={watcherParms.K4.Max}"
+                        android:id="@+id/et_watcher_k4_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        />
+
+
+
+                    <Spinner
+                        android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K4.Mode)}"
+                        android:id="@+id/sp_watcher_k4_trigger_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/trigger_type">
+
+                    </Spinner>
+                </LinearLayout>
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <Switch
-                    android:layout_weight="1"
-                    android:checked='@{watcherParms.K2.State.equals("Close")?true:false}'
-                    android:enabled="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:text="K2:"/>
-
-                <EditText
-                    android:text="@={watcherParms.K2.Min}"
-                    android:id="@+id/et_watcher_k2_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K2.Relation)}"
-                    android:id="@+id/sp_watcher_k2_trigger"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:entries="@array/kList">
-
-                </Spinner>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <EditText
-                    android:text="@={watcherParms.K2.Max}"
-                    android:id="@+id/et_watcher_k2_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    />
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K2.Mode)}"
-                    android:id="@+id/sp_watcher_k2_trigger_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/trigger_type">
-
-                </Spinner>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <Switch
-                    android:layout_weight="1"
-                    android:checked='@{watcherParms.K3.State.equals("Close")?true:false}'
-                    android:enabled="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:text="K3:"/>
-
-                <EditText
-                    android:text="@={watcherParms.K3.Min}"
-                    android:id="@+id/et_watcher_k3_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K3.Relation)}"
-                    android:id="@+id/sp_watcher_k3_trigger"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:entries="@array/kList">
-
-                </Spinner>
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <EditText
-                    android:text="@={watcherParms.K3.Max}"
-                    android:id="@+id/et_watcher_k3_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    />
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K3.Mode)}"
-                    android:id="@+id/sp_watcher_k3_trigger_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/trigger_type">
-
-                </Spinner>
-
-            </LinearLayout>
+        </ScrollView>
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <Switch
-                    android:layout_weight="1"
-                    android:checked='@{watcherParms.K4.State.equals("Close")?true:false}'
-                    android:enabled="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:text="K4:"/>
-
-                <EditText
-                    android:text="@={watcherParms.K4.Min}"
-                    android:id="@+id/et_watcher_k4_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.kList,watcherParms.K4.Relation)}"
-                    android:id="@+id/sp_watcher_k4_trigger"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:entries="@array/kList">
-
-                </Spinner>
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#60;"/>
-
-                <EditText
-                    android:text="@={watcherParms.K4.Max}"
-                    android:id="@+id/et_watcher_k4_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    />
-
-
-
-                <Spinner
-                    android:selection="@{ArrayUtil.getPostion(R.array.trigger_type_val,watcherParms.K4.Mode)}"
-                    android:id="@+id/sp_watcher_k4_trigger_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/trigger_type">
-
-                </Spinner>
-            </LinearLayout>
-
-
-        </LinearLayout>
 
 
     </android.support.constraint.ConstraintLayout>

@@ -96,10 +96,10 @@ public class TriggerParms extends BaseObservable implements IPacks{
     @Override
     public List<String> getStrPacks(String name) {
         List<String> strings=new ArrayList<>();
-        strings.add("{\""+name+"\":{\"R\":"+getRelation()+"}}");
+        strings.add("{\""+name+"\":{\"R\":\""+getRelation()+"\"}}");
         strings.add("{\""+name+"\":{\"Min\":"+getMin()+"}}");
         strings.add("{\""+name+"\":{\"Max\":"+getMax()+"}}");
-        strings.add("{\""+name+"\":{\"M\":"+getMode()+"}}");
+        strings.add("{\""+name+"\":{\"M\":\""+getMode()+"\"}}");
         return strings;
     }
 }

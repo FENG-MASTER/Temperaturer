@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.fengmaster.temperaturer.R;
 import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
@@ -36,7 +38,7 @@ import butterknife.OnClick;
 import butterknife.OnItemSelected;
 
 
-public class WatcherActivity extends AppCompatActivity {
+public class WatcherActivity extends BaseActivity {
 
     public static final String EXT_NAME="EXT_NAME";
     public static final String EXT_ADDRESS="EXT_ADDRESS";
@@ -55,7 +57,7 @@ public class WatcherActivity extends AppCompatActivity {
     private TimerTask timerTask;
 
     @BindView(R.id.et_address)
-    public EditText edAddress;
+    public EditText etAddress;
 
     @BindView(R.id.cb_watcher_auto_query)
     public CheckBox cbAutoQuery;
@@ -87,7 +89,6 @@ public class WatcherActivity extends AppCompatActivity {
         model.setDeviceName(bluetoothName);
         model.setAddress(bluetoothAddress);
         BluetoothHelper.getInstance().connect(model);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void initView(){
@@ -130,14 +131,17 @@ public class WatcherActivity extends AppCompatActivity {
         timerTask=new TimerTask() {
             @Override
             public void run() {
-                TemperaturerBluetoothConnector.getInstance().queryParms();
+                Editable sn = etAddress.getText();
+                if (sn!=null&&sn.length()!=0){
+                    TemperaturerBluetoothConnector.getInstance().queryParms(sn.toString());
+                }
             }
         };
         long i=0;
         int p = binding.spWatcherQueryInterval.getSelectedItemPosition();
         switch (p){
             case 0:
-                i=1000;
+                i=2000;
                 break;
             case 1:
                 i=3000;
@@ -152,8 +156,7 @@ public class WatcherActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void gattInitFinished(BluetoothGattInitFinished finished){
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        TemperaturerBluetoothConnector.getInstance().queryParms();
+        Toast.makeText(this,"蓝牙连接完毕,请输入设备SN码后,再查询",Toast.LENGTH_LONG).show();
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
@@ -164,7 +167,12 @@ public class WatcherActivity extends AppCompatActivity {
     @OnClick(R.id.bt_watcher_query)
     public void queryParms(View view){
         //点击查询按钮
-        TemperaturerBluetoothConnector.getInstance().queryParms();
+        Editable sn = etAddress.getText();
+        if (sn!=null&&sn.length()!=0){
+            TemperaturerBluetoothConnector.getInstance().queryParms(sn.toString());
+        }else {
+            Toast.makeText(this,"请输入设备SN后再查询",Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick({R.id.bt_watcher_send})

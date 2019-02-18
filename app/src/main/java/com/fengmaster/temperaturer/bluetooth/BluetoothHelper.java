@@ -238,7 +238,7 @@ public class BluetoothHelper extends BluetoothGattCallback {
      */
     public boolean sendString(String str,Charset charset){
         byte[] bytes = new String(str.getBytes(Charset.defaultCharset()), charset).getBytes(charset);
-
+        Log.i("发送内容", str);
 
 //        int[] separate = dataSeparate(bytes.length);
 //

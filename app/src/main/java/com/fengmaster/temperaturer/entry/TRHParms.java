@@ -29,11 +29,10 @@ public class TRHParms extends BaseObservable implements IPacks {
     }
 
     public void setA(String a) {
-        try{
-            Double.valueOf(a);
-        }catch (Exception e){
+        if (a==null||a.isEmpty()||a.endsWith(".")){
             return;
         }
+
         NumberFormat nf = NumberFormat.getNumberInstance();
         nf.setMaximumFractionDigits(1);
         A = nf.format(Double.valueOf(a));
@@ -47,9 +46,7 @@ public class TRHParms extends BaseObservable implements IPacks {
     }
 
     public void setB(String b) {
-        try{
-            Double.valueOf(b);
-        }catch (Exception e){
+        if (b==null||b.isEmpty()||b.endsWith(".")){
             return;
         }
         NumberFormat nf = NumberFormat.getNumberInstance();

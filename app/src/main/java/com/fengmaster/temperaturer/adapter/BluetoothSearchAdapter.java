@@ -21,6 +21,7 @@ import com.fengmaster.temperaturer.bluetooth.BluetoothHelper;
 import com.fengmaster.temperaturer.bluetooth.base.BluetoothModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,13 +38,18 @@ public class BluetoothSearchAdapter extends RecyclerView.Adapter<BluetoothSearch
 
     private List<BluetoothModel> bluetoothModels=new ArrayList<>();
 
+    /**
+     * 过滤设备名称列表
+     */
+    private List<String> deviceNameFilter= Arrays.asList(App.getContext().getResources().getStringArray(R.array.device_name_filter));
+
     //搜索蓝牙回调
     private ScanCallback scanCallback=new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
             BluetoothModel model = toBluetoothModel(result);
-            if (!bluetoothModels.contains(model)){
+            if (!bluetoothModels.contains(model)&&deviceNameFilter.contains(model.getDeviceName())){
                 bluetoothModels.add(model);
                 notifyDataSetChanged();
             }

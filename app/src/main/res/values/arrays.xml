@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+    <!--蓝牙搜索设备名称过滤-->
+    <string-array name="device_name_filter">
+        <item>BT-05</item>
+        <item>BT05</item>
+        <item>HC-08</item>
+
+    </string-array>
+
     <string-array name="kList">
         <item>T1</item>
         <item>T2</item>
@@ -11,15 +18,15 @@
     </string-array>
 
     <string-array name="query_type">
-        <item>间隔1秒</item>
+        <item>间隔2秒</item>
         <item>间隔3秒</item>
         <item>间隔5秒</item>
     </string-array>
 
     <string-array name="trigger_type">
         <item>自动</item>
-        <item>断开</item>
         <item>闭合</item>
+        <item>断开</item>
     </string-array>
 
 
